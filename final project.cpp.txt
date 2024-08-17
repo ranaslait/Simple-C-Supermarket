@@ -1,0 +1,145 @@
+// final project.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+double price[50];
+//to allow the user enter prices of decimal numbers 
+int ID[50];
+bool deleted[50];
+int counter = 0;
+// enter id and price of the item and increment the counter
+void enterItem() {
+    cout << "ID:";
+    cin >> ID[counter];
+    cout << "Price:";
+    cin >> price[counter];
+    counter++;
+}
+// search and find the price of the selected ID 
+void retreivePrice() {
+    int x;
+    cout << "Please enter the ID of the item:";
+    cin >> x;
+    for (int i = 0; i < counter; i++) {
+        if (x == ID[i] && !deleted[i]) {
+            cout << "Price :" << price[i] << " LE";
+        }
+    }
+}
+// display when the price in a certain range 
+void displayInRange() {
+    int begin, end;
+    cout << "Please enter the begin and the end of your range,Begin :";
+    cin >> begin;
+    cout << "End: ";
+    cin >> end;
+    for (int i = 0; i < counter; i++) {
+        if (begin <= price[i] && end >= price[i] && !deleted[i]) {
+            cout << "   ID: " << ID[i] << setw(5);
+            cout << "   Price: " << price[i] << " LE  ";
+        }
+        else {
+            cout << ID[i] << "  ) is not in this range!" << endl;
+        }
+    }
+}
+// search and set the deleted = true
+void deleteItem() {
+    int x;
+    cout << "Please enter the ID of the item you want to delete " << endl;
+    cin >> x;
+    for (int i = 0; i < counter; i++) {
+        if (x == ID[i]) {
+            deleted[i] = true;
+        }
+    }
+}
+// display all ids and prices except when deleted = true
+void displayAllItems() {
+    for (int i = 0; i < counter; i++) {
+        if (!deleted[i]) {
+            cout << " ID:   " << ID[i] << setw(5);
+            cout << " Price:  " << price[i] << endl;
+        }
+    }
+}
+// sets the deleted attribute to true 
+void deleteAllItems() {
+    for (int i = 0; i < counter; i++) {
+        deleted[i] = true;
+    }
+}
+// to sort the items according to the price 
+void sort() {
+    int i = 0;
+    while (true) {
+        if (counter < 2)
+            break;
+        if (price[i + 1] < price[i]) {
+            swap(ID[i + 1], ID[i]);
+            swap(price[i + 1], price[i]);
+            swap(deleted[i + 1], deleted[i]);
+            i = 0;
+        }
+        else
+            i++;
+        if (i == counter - 1)
+            break;
+    }
+}
+int main()
+{
+    string x;
+    cout << "Please enter a number from 1:6" << endl;
+    cout << "1:To Enter ID & Price of an item " << endl;
+    cout << "2:To Retrive the Price of specific item" << endl;
+    cout << "3:To display items within a specific range" << endl;
+    cout << "4:To delete an item" << endl;
+    cout << "5:To display all items" << endl;
+    cout << "6:To delete all items" << endl;
+    while (x != "e") {
+        cin >> x;
+        if (x == "1") {
+            enterItem();
+        }
+        else if (x == "2") {
+            retreivePrice();
+        }
+        else if (x == "3") {
+            displayInRange();
+        }
+        else if (x == "4") {
+            deleteItem();
+        }
+        else if (x == "5") {
+            displayAllItems();
+        }
+        else if (x == "6") {
+            deleteAllItems();
+        }
+        else if (x == "e") {
+            break;
+        }
+        else if (x == "E") {
+            break;
+        }
+        else {
+            cout << "please enter a correct key:";
+        }
+        sort();
+    }
+
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
